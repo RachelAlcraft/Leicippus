@@ -1,3 +1,4 @@
 # Leicippus
 Atomic Density Explorer
-<br/>(Currently in dev)
+<br/><a href='Leucippus.html' title='Home' target='_self'>Leucippus Home</a>
+<br/>(currently in dev)
