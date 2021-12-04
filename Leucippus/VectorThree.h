@@ -27,7 +27,7 @@ public:
     VectorThree operator / (double val);
     double getAngle(VectorThree vec);     
     VectorThree getMillerIndices(int m, int n, int p);
-    VectorThree getCrystalIndices(int h, int k, int l);
+    VectorThree getCrystalIndices(int h, int k, int l);    
 
 private:
     int getLCM(int a, int b, int c);

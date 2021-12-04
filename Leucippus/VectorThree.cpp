@@ -120,7 +120,7 @@ VectorThree VectorThree::getCrystalIndices(int h, int k, int l)
         p = lcm / l;
 
     //reflection indices may be multiplesof these 
-    return VectorThree(h, k, l);
+    return VectorThree(m, n, p);
 }
 
 int VectorThree::getLCM(int a, int b, int c)
@@ -133,7 +133,7 @@ int VectorThree::getLCM(int a, int b, int c)
     if (c > 0)
         lcm *= c;
 
-    return lcm;
+    return int(lcm);
 }
 double VectorThree::getDotProduct(VectorThree vec)
 {

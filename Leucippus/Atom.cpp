@@ -10,14 +10,15 @@
 
 #define M_PI 3.14159265358979323846  /* pi */
 
-Atom::Atom(double x, double y, double z, double bfactor, double occupancy, string AtomType)
+Atom::Atom(double x, double y, double z, double bfactor, double occupancy, string atomType,string atomClass)
 {
 	_x = x;
 	_y = y;
 	_z = z;
 	_bfactor = bfactor;	
 	_occupancy = occupancy;
-	_atomType = AtomType;
+	_atomType = atomType;
+	_atomClass = atomClass;	
 }
 
 
@@ -76,14 +77,18 @@ complex<double> Atom::structureFactorContributionTheoretical(VectorThree hkl)
 	* F(hjkl) = f . e^(2.pi.i(hx + ky + lz)
 	*/
 	VectorThree xyz = VectorThree(_x, _y, _z);
-	complex<double> im_f = electronDensityContributionTheoretical(hkl);
-	complex<double> i;
-	i = sqrt(-1);
-	complex<double> fhkl = im_f * exp(2 * M_PI * i * hkl.getDotProduct(xyz));
+	double im_f = electronDensityContributionTheoretical(hkl);
+	complex<double> fhkl;
+	if (im_f > 0.5)
+	{
+		complex<double> i;
+		i = sqrt(-1);
+		fhkl = im_f * exp(2 * M_PI * i * hkl.getDotProduct(xyz));
+	}
 	return fhkl;
 }
 
-complex<double> Atom::electronDensityContributionExperimental(VectorThree hkl, double intensity) 
+complex<double> Atom::electronDensityContributionFromSF(VectorThree hkl, double intensity)
 {
 	
 	VectorThree xyz = VectorThree(_x, _y, _z);

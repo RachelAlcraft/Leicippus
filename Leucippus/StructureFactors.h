@@ -7,38 +7,50 @@
 #include <string>
 #include <vector>
 #include <complex>
+#include <map>
 
 #include "VectorThree.h"
 #include "Atom.h"
 #include "Lattice.h"
+#include "CifFile.h"
 
 using namespace std;
 class StructureFactor
 {
 public://Lazy public interface
     bool Experimental;
+    VectorThree HKL;    
+    double Intensity; //from experiment we only get the real intensities    
+    complex<double> ComplexSF;//from model we get complex numbers
 protected:
-    complex<double> _sf;//from model we get complex numbers
-    double _intensity; //from experiment we only get the real intensities
-    int _h;
-    int _k;
-    int _l;
+    
+        
 public:
     //Functions
 
-    StructureFactor(int h, int k, int l, double intensity);
-    StructureFactor(int h, int k, int l, complex<double> sf);
+    StructureFactor(VectorThree hkl, double intensity);
+    StructureFactor(VectorThree hkl, complex<double> sf);
 };
 
 
 class StructureFactors
 {    
+public:
+    string Name;
+    map<string,StructureFactor*> SFs;//from model we get complex numbers
+    int hStart;
+    int hEnd;
+    int kStart;
+    int kEnd;
+    int lStart;
+    int lEnd;
 protected:
-    vector<StructureFactor*> _sfs;//from model we get complex numbers
     RealLattice _lattice;    
 public:
     //Functions
-    StructureFactors() {};
+    StructureFactors();
+    void addStructureFactor(StructureFactor* sf);
+    void print(string filename);
 };
 /********************************************************
 * Create EXPERIMENTAL Structure Factors
@@ -47,9 +59,12 @@ class StructureFactorsExperimental : public StructureFactors
 {
 private:
     double _waveLength;
+    CifFile* _cif;
 
 public:
-    StructureFactorsExperimental(string fileName);    
+    StructureFactorsExperimental(CifFile* cif);    
+    void printRealConversion(string filename);
+    RealLattice getLattice();
 };
 /********************************************************
 * Create THEORETICAL Structure Factors
@@ -57,7 +72,24 @@ public:
 class StructureFactorsTheoretical : public StructureFactors
 {
 public:
-    StructureFactorsTheoretical(int h_start, int h_end, int k_start, int k_end, int l_start, int l_end, vector<Atom*> atoms);
+    StructureFactorsTheoretical(string name,int h_start, int h_end, int k_start, int k_end, int l_start, int l_end, vector<Atom*> atoms);
+    StructureFactorsTheoretical(string name);
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 };
 
 

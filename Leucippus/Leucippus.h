@@ -6,3 +6,7 @@
 #include <iostream>
 
 // TODO: Reference additional headers your program requires here.
+void calculateTheoreticalElectronDensity();
+void convertCcp4ToCif();
+void old();
+
